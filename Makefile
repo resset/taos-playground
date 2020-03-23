@@ -11,7 +11,7 @@ TYPE=debug
 RUST_TARGET=./target/riscv64gc-unknown-none-elf/$(TYPE)
 LIBS=-L$(RUST_TARGET)
 SOURCES_ASM=$(wildcard src/asm/*.S)
-LIB=-lsos -lgcc
+LIB=-ltaos -lgcc
 OUT=taos.elf
 
 #####

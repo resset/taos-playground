@@ -30,6 +30,7 @@ _start:
 	la		gp, _global_pointer
 .option pop
 	# Set all bytes in the BSS section to zero.
+	# TODO: all? What if _bss_start == _bss_end, is this 0-byte memory region?
 	la		a0, _bss_start
 	la		a1, _bss_end
 	bgeu	a0, a1, 2f
@@ -75,4 +76,3 @@ _start:
 4:
 	wfi
 	j		4b
-

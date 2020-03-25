@@ -6,4 +6,3 @@
 # handling interrupts.
 asm_trap_vector:
 	mret
-

@@ -2,17 +2,14 @@
 // Stephen Marz
 // 21 Sep 2019
 #![no_std]
-#![feature(panic_info_message,asm)]
+#![feature(panic_info_message, asm)]
 
 // ///////////////////////////////////
 // / RUST MACROS
 // ///////////////////////////////////
 #[macro_export]
-macro_rules! print
-{
-	($($args:tt)+) => ({
-
-	});
+macro_rules! print {
+    ($($args:tt)+) => {{}};
 }
 #[macro_export]
 macro_rules! println
@@ -35,28 +32,26 @@ macro_rules! println
 extern "C" fn eh_personality() {}
 #[panic_handler]
 fn panic(info: &core::panic::PanicInfo) -> ! {
-	print!("Aborting: ");
-	if let Some(_p) = info.location() {
-		println!(
-					"line {}, file {}: {}",
-					_p.line(),
-					_p.file(),
-					info.message().unwrap()
-		);
-	}
-	else {
-		println!("no information available.");
-	}
-	abort();
+    print!("Aborting: ");
+    if let Some(_p) = info.location() {
+        println!(
+            "line {}, file {}: {}",
+            _p.line(),
+            _p.file(),
+            info.message().unwrap()
+        );
+    } else {
+        println!("no information available.");
+    }
+    abort();
 }
 #[no_mangle]
-extern "C"
-fn abort() -> ! {
-	loop {
-		unsafe {
-			asm!("wfi"::::"volatile");
-		}
-	}
+extern "C" fn abort() -> ! {
+    loop {
+        unsafe {
+            asm!("wfi"::::"volatile");
+        }
+    }
 }
 
 // ///////////////////////////////////
@@ -67,15 +62,12 @@ fn abort() -> ! {
 // / ENTRY POINT
 // ///////////////////////////////////
 #[no_mangle]
-extern "C"
-fn kmain() {
-	// Main should initialize all sub-systems and get
-	// ready to start scheduling. The last thing this
-	// should do is start the timer.
+extern "C" fn kmain() {
+    // Main should initialize all sub-systems and get
+    // ready to start scheduling. The last thing this
+    // should do is start the timer.
 }
 
 // ///////////////////////////////////
 // / RUST MODULES
 // ///////////////////////////////////
-
-

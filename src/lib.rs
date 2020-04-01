@@ -39,8 +39,8 @@ fn panic(info: &core::panic::PanicInfo) -> ! {
 	if let Some(_p) = info.location() {
 		println!(
 					"line {}, file {}: {}",
-					p.line(),
-					p.file(),
+					_p.line(),
+					_p.file(),
 					info.message().unwrap()
 		);
 	}

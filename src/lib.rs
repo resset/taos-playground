@@ -84,8 +84,56 @@ extern "C" fn kmain() {
     // Usually we can use #[test] modules in Rust, but it would convolute the
     // task at hand. So, we'll just add testing snippets.
     loop {
-        if let Some(c) = uart.get() {
-            uart.put(c);
+        if let Some(byte) = uart.get() {
+            //use numtoa::NumToA;
+            //let mut buffer = [0u8; 3];
+            //println!("{}", (byte as u8).numtoa_str(10, &mut buffer));
+            match byte {
+                8 | 127 => {
+                    // This is a backspace, so we essentially have
+                    // to write a space and backup again:
+                    print!("{}{}{}", 8 as char, ' ', 8 as char);
+                }
+                10 | 13 => {
+                    // Newline or carriage-return
+                    println!();
+                }
+                0x1b => {
+                    // Those familiar with ANSI escape sequences
+                    // knows that this is one of them. The next
+                    // thing we should get is the left bracket [
+                    // These are multi-byte sequences, so we can take
+                    // a chance and get from UART ourselves.
+                    // Later, we'll button this up.
+                    if let Some(bracket) = uart.get() {
+                        if bracket == 91 {
+                            // This is a right bracket! We're on our way!
+                            if let Some(esc_cmd) = uart.get() {
+                                match esc_cmd as char {
+                                    'A' => {
+                                        println!("That's the up arrow!");
+                                    }
+                                    'B' => {
+                                        println!("That's the down arrow!");
+                                    }
+                                    'C' => {
+                                        println!("That's the right arrow!");
+                                    }
+                                    'D' => {
+                                        println!("That's the left arrow!");
+                                    }
+                                    _ => {
+                                        println!("That's something else.....");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                _ => {
+                    print!("{}", byte as char);
+                }
+            }
         }
     }
 }

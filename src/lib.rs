@@ -68,26 +68,26 @@ extern "C" fn abort() -> ! {
 extern "C" fn kmain() {
     // Main should initialize all sub-systems and get
     // ready to start scheduling. The last thing this
-	// should do is start the timer.
+    // should do is start the timer.
 
-	// Let's try using our newly minted UART by initializing it first.
-	// The UART is sitting at MMIO address 0x1000_0000, so for testing
-	// now, lets connect to it and see if we can initialize it and write
-	// to it.
-	let mut uart = uart::Uart::new(0x1000_0000);
+    // Let's try using our newly minted UART by initializing it first.
+    // The UART is sitting at MMIO address 0x1000_0000, so for testing
+    // now, lets connect to it and see if we can initialize it and write
+    // to it.
+    let mut uart = uart::Uart::new(0x1000_0000);
 
-	uart.init();
+    uart.init();
 
-	println!("taos v0.1");
+    println!("taos v0.1");
 
-	// Now see if we can read stuff:
-	// Usually we can use #[test] modules in Rust, but it would convolute the
-	// task at hand. So, we'll just add testing snippets.
-	loop {
-		if let Some(c) = uart.get() {
-			uart.put(c);
-		}
-	}
+    // Now see if we can read stuff:
+    // Usually we can use #[test] modules in Rust, but it would convolute the
+    // task at hand. So, we'll just add testing snippets.
+    loop {
+        if let Some(c) = uart.get() {
+            uart.put(c);
+        }
+    }
 }
 
 // ///////////////////////////////////

@@ -35,7 +35,11 @@ _start:
 	la		a1, _bss_end
 	bgeu	a0, a1, 2f
 1:
+#if __riscv_xlen == 32
+	sw		zero, (a0)
+#else
 	sd		zero, (a0)
+#endif
 	addi	a0, a0, 8
 	bltu	a0, a1, 1b
 2:

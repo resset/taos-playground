@@ -57,5 +57,5 @@ clean:
 # To run this app on 32-bit RISC-V machine (RV32IMAC), use following:
 # rustup target add riscv32imac-unknown-none-elf
 # cargo build --target=riscv32imac-unknown-none-elf
-# riscv64-unknown-linux-gnu-g++ -Wall -Wextra -pedantic -O0 -g -std=c++17 -static -ffreestanding -nostdlib -fno-rtti -fno-exceptions -march=rv32imac -mabi=ilp32 -Wl,-Map=taos.map -Tsrc/lds/virt.lds -o taos32.elf src/asm32/boot.S src/asm32/trap.S -L./target/riscv32imac-unknown-none-elf/debug -ltaos -lgcc
+# riscv64-unknown-linux-gnu-g++ -Wall -Wextra -pedantic -O0 -g -std=c++17 -static -ffreestanding -nostdlib -fno-rtti -fno-exceptions -march=rv32imac -mabi=ilp32 -Wl,-Map=taos.map -Tsrc/lds/virt.lds -o taos32.elf src/asm/boot.S src/asm/trap.S -L./target/riscv32imac-unknown-none-elf/debug -ltaos -lgcc
 # qemu-system-riscv32 -machine virt -cpu rv32 -smp 4 -m 128M -nographic -serial mon:stdio -bios none -kernel taos32.elf -drive if=none,format=raw,file=hdd.dsk,id=foo -device virtio-blk-device,scsi=off,drive=foo

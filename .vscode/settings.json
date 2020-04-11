@@ -1,0 +1,4 @@
+{
+    "rust.all_targets": false,
+    "rust.target": "riscv64gc-unknown-none-elf"
+}

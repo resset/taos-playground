@@ -21,12 +21,12 @@ pub const PAGE_SIZE: usize = 1 << 12;
 
 /// Align (set to a multiple of some power of two)
 /// This takes an order which is the exponent to 2^order
-/// Therefore, all alignPAGE_SIZEments must be made as a power of two.
+/// Therefore, all alignments must be made as a power of two.
 /// This function always rounds up.
 pub const fn align_val(val: usize, order: usize) -> usize {
-    let o = (1usize << order) - 1;
-    let page_mask = !o;
-    (val + o) & page_mask
+    let almost_full_page_size = (1usize << order) - 1;
+    let page_mask = !almost_full_page_size;
+    (val + almost_full_page_size) & page_mask
 }
 
 #[repr(u8)]

@@ -37,6 +37,7 @@ CPU=rv64
 CPUS=4
 MEM=128M
 DRIVE=hdd.dsk
+QEMU_DBG=-S -gdb tcp::5551
 
 all:
 	cargo build
@@ -49,6 +50,12 @@ run: all
 	-nographic -serial mon:stdio -bios none -kernel $(OUT) \
 	-drive if=none,format=raw,file=$(DRIVE),id=foo -device virtio-blk-device,scsi=off,drive=foo
 
+dbg: all
+	# Debug with:
+	# $(RISCV_GDB) -ex "set substitute-path /rustc/$$(rustc -Vv | grep commit-hash | cut -d' ' -f2) $$(rustc --print sysroot)/lib/rustlib/src/rust" -x debug.gdb $(OUT)
+	$(QEMU) $(QEMU_DBG) -machine $(MACH) -cpu $(CPU) -smp $(CPUS) -m $(MEM) \
+	-nographic -serial mon:stdio -bios none -kernel $(OUT) \
+	-drive if=none,format=raw,file=$(DRIVE),id=foo -device virtio-blk-device,scsi=off,drive=foo
 .PHONY: clean
 clean:
 	cargo clean
